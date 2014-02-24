@@ -1,0 +1,13 @@
+---
+- name: Install Magento, MySQL, Nginx, and PHP-FPM
+  hosts: magento-server
+  user: root
+  # remote_user: user
+  # sudo: yes
+
+  roles:
+    - common
+    - mysql 
+    - nginx
+    - php-fpm
+    - magento

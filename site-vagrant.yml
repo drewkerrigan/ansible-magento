@@ -1,0 +1,10 @@
+---
+- name: Install Magento, MySQL, Nginx, and PHP-FPM
+  hosts: vagrant
+
+  roles:
+    - common
+    - mysql 
+    - nginx
+    - php-fpm
+    - magento

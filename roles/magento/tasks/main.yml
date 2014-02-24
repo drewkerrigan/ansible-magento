@@ -1,0 +1,30 @@
+---
+- name: Download Magento
+  get_url: url=http://www.magentocommerce.com/downloads/assets/{{ mage_version }}/magento-{{ mage_version }}.tar.gz dest=/srv/magento-{{ mage_version }}.tar.gz
+           sha256sum="{{ mage_sha256sum }}"
+
+- name: Extract archive
+  command: chdir=/srv/ /bin/tar xvf magento-{{ mage_version }}.tar.gz creates=/srv/magento
+
+- name: Add group "magento"
+  group: name=magento
+
+- name: Add user "magento"
+  user: name=magento group=magento home=/srv/magento/
+
+# - name: Fetch random salts for Magento config
+#   local_action: command curl https://api.magento.org/secret-key/1.1/salt/
+#   register: "mage_salt"
+#   sudo: no
+
+- name: Create Magento database
+  mysql_db: name={{ mage_db_name }} state=present
+
+- name: Create Magento database user
+  mysql_user: name={{ mage_db_user }} password={{ mage_db_password }} priv={{ mage_db_name }}.*:ALL host='localhost' state=present
+
+# - name: Copy Magento config file
+#   template: src=wp-config.php dest=/srv/magento/
+
+- name: Change ownership of Magento installation
+  file: path=/srv/magento/ owner=magento group=magento state=directory recurse=yes

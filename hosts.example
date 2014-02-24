@@ -1,0 +1,5 @@
+[magento-server]
+localhost              ansible_connection=local
+# Remote Host Example
+# other1.example.com     ansible_connection=ssh        ansible_ssh_user=mpdehaan
+# other2.example.com     ansible_connection=ssh        ansible_ssh_user=mdehaan
